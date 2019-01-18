@@ -21,6 +21,26 @@ defmodule FastGlobalBench do
     :ok
   end
 
+  bench "persistent_term put (5)", [data: gen_services(5)] do
+    :persistent_term.put(:data, data)
+    :ok
+  end
+
+  bench "persistent_term put (10)", [data: gen_services(10)] do
+    :persistent_term.put(:data, data)
+    :ok
+  end
+
+  bench "persistent_term put (100)", [data: gen_services(100)] do
+    :persistent_term.put(:data, data)
+    :ok
+  end
+
+  bench "persistent_term get", [key: gen_persistent_term()] do
+    :persistent_term.get(key)
+    :ok
+  end
+
   bench "agent get", [agent: gen_agent()] do
     Agent.get(agent, &(&1))
     :ok
@@ -50,6 +70,11 @@ defmodule FastGlobalBench do
 
   defp gen_fastglobal() do
     FastGlobal.put(:data, gen_services(50))
+    :data
+  end
+
+  defp gen_persistent_term() do
+    :persistent_term.put(:data, gen_services(50))
     :data
   end
 
